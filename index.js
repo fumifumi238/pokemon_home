@@ -115,4 +115,5 @@ const getPokedata = async (id, rst, ts2, pokeId, form) => {
   }
 };
 
+// selectSeasons(season名,ダブルなら1シングルなら0)
 selectSeasons(30, 0);
