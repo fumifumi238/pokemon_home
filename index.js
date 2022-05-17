@@ -7,6 +7,28 @@ const headers = {
   accept: "application/json",
 };
 
+const getSeasonData = async () => {
+  const res = await fetch(
+    "https://api.battle.pokemon-home.com/cbd/competition/rankmatch/list",
+    {
+      method: "POST",
+      headers: {
+        accept: "application/json, text/javascript, */*; q=0.01",
+        countrycode: 304,
+        authorization: "Bearer",
+        langcode: 1,
+        "user-agent":
+          "Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Mobile Safari/537.36",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ soft: "Sw" }),
+    }
+  );
+
+  const data = await res.json();
+  return data.list;
+};
+
 const getPokeRanging = async (id, rst, ts2) => {
   const res = await fetch(
     `https://resource.pokemon-home.com/battledata/ranking/${id}/${rst}/${ts2}/pokemon`,
@@ -19,6 +41,15 @@ const getPokeRanging = async (id, rst, ts2) => {
     getPokedata(id, rst, ts2, data[i].id, data[i].form);
   }
 };
+
+const selectSeasons = async (season, rule) => {
+  const list = await getSeasonData();
+  const key = Object.keys(list[season])[rule];
+  const data = list[season][key];
+  getPokeRanging(key, data.rst, data.ts2);
+};
+
+getSeasonData();
 
 const setPdetails = (pokeId) => {
   if (pokeId >= 2 && pokeId <= 199) {
@@ -43,6 +74,7 @@ const setPdetails = (pokeId) => {
 
   return 0;
 };
+
 const getPokedata = async (id, rst, ts2, pokeId, form) => {
   const pretails = setPdetails(pokeId);
   if (pretails === 0) {
@@ -83,4 +115,4 @@ const getPokedata = async (id, rst, ts2, pokeId, form) => {
   }
 };
 
-getPokeRanging(10302, 0, 1652699981);
+selectSeasons(30, 0);
