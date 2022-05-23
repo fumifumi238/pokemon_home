@@ -38,7 +38,7 @@ const getPokeRanging = async (id, rst, ts2) => {
   const data = await res.json();
 
   for (let i = 0; i < 30; i++) {
-    getPokedata(id, rst, ts2, data[i].id, data[i].form);
+    await getPokedata(id, rst, ts2, data[i].id, data[i].form, i + 1);
   }
 };
 
@@ -75,7 +75,7 @@ const setPdetails = (pokeId) => {
   return 0;
 };
 
-const getPokedata = async (id, rst, ts2, pokeId, form) => {
+const getPokedata = async (id, rst, ts2, pokeId, form, rank) => {
   const pretails = setPdetails(pokeId);
   if (pretails === 0) {
     return;
@@ -93,7 +93,7 @@ const getPokedata = async (id, rst, ts2, pokeId, form) => {
 
   console.log("----------------------");
   console.log("----------------------");
-  console.log(pokemon.poke[pokeId - 1]);
+  console.log(rank, pokemon.poke[pokeId - 1]);
   console.log("----------------------");
   for (let i = 0; i < waza.length; i++) {
     console.log(pokemon.waza[waza[i].id], waza[i].val);
