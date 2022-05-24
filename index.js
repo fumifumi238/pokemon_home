@@ -49,6 +49,7 @@ const selectSeasons = async (season, rule) => {
   getPokeRanging(key, data.rst, data.ts2);
 };
 
+// TODO: 定期的に実行したい
 getSeasonData();
 
 const setPdetails = (pokeId) => {
